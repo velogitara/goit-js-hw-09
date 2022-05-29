@@ -29,4 +29,5 @@ refs.stopBtn.addEventListener('click', () => {
   console.log(`Interval with id ${timerId} has stopped!`);
   refs.startBtn.disabled = false;
   refs.stopBtn.disabled = true;
+  bodyStyleRef.backgroundColor = 'transparent';
 });
