@@ -1,33 +1,28 @@
-import BSN from 'bootstrap.native';
-
-const modal = new BSN.Modal('#subscriptionModal');
-console.log(modal);
-modal.show();
+function getRandomHexColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
+const bodyStyleRef = document.body.style;
 
 const refs = {
   startBtn: document.querySelector('[data-start]'),
   stopBtn: document.querySelector('[data-stop]'),
 };
-console.log(refs.startBtn);
-console.log(refs.stopBtn);
-function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
 
-// const PROMPT_DELAY = 1000;
-// const MAX_PROMPT_ATTEMPTS = 3;
+let timerId = null;
 
-// let promptCounter = 0;
-// console.log(promptCounter);
+const ColorSwitchOnClick = () => {
+  timerId = setInterval(() => {
+    const bodyStyle = (bodyStyleRef.backgroundColor = getRandomHexColor());
+  }, 1000);
+  refs.startBtn.disabled = true;
+  refs.stopBtn.disabled = false;
+};
 
-// const naughtyInterval = setInterval(() => {
-//   if (promptCounter === MAX_PROMPT_ATTEMPTS) {
-//     console.log('остановили интервал');
-//     clearInterval(naughtyInterval);
-//     return;
-//   }
+refs.startBtn.addEventListener('click', ColorSwitchOnClick);
 
-//   console.log('Subscribe please - ' + Date.now());
-//   promptCounter += 1;
-//   console.log(promptCounter);
-// }, PROMPT_DELAY);
+refs.stopBtn.addEventListener('click', () => {
+  clearInterval(timerId);
+  console.log(`Interval with id ${timerId} has stopped!`);
+  refs.startBtn.disabled = false;
+  refs.stopBtn.disabled = true;
+});
