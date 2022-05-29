@@ -5,39 +5,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 import Notiflix from 'notiflix';
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  altInput: true,
-  altFormat: 'F j, Y',
-  dateFormat: 'Y-m-d',
-  onClose(selectedDates) {
-    if (selectedDates[0].getTime() < Date.now()) {
-      // Notiflix.Notify.failure('Please choose a date in the future');
-      Notiflix.Report.warning('Wrong Date', 'Please choose a date in the future', 'OK');
-      return;
-    }
-    Refs.startBtn.disabled = false;
-    // console.log(selectedDates[0].getTime());
-  },
-};
-
-flatpickr('#datetime-picker', options);
-
-const Refs = {
-  inputDate: document.querySelector('#datetime-picker'),
-  startBtn: document.querySelector('[data-start]'),
-  stopBtn: document.querySelector('[data-stop]'),
-  secondsVal: document.querySelector('[data-seconds]'),
-  minutesVal: document.querySelector('[data-minutes]'),
-  hoursVal: document.querySelector('[data-hours]'),
-  daysVal: document.querySelector('[data-days]'),
-};
-
-let chosenDate = null;
-Refs.startBtn.disabled = true;
+// let chosenDate = null;
 class Timer {
   constructor({ onTick }) {
     this.intervalId = null;
@@ -45,21 +13,29 @@ class Timer {
     this.onTick = onTick;
     this.init;
   }
+
+  setEndDate(date) {
+    this.endDate = date;
+  }
   init() {
     const { days, hours, minutes, seconds } = this.convertMs(0);
     this.onTick({ days, hours, minutes, seconds });
   }
   start() {
-    chosenDate = new Date(Refs.inputDate.value);
+    //  chosenDate = new Date(Refs.inputDate.value);
 
     if (this.isActive) {
       return;
     }
-    const startTime = chosenDate.getTime();
+    // const startTime = chosenDate.getTime();
 
+    const startTime = this.endDate.getTime();
     this.isActive = true;
     this.intervalId = setInterval(() => {
-      if (Math.trunc(Date.now() / 1000) === Math.trunc(startTime / 1000)) {
+      //   if (Math.trunc(Date.now() / 1000) === Math.trunc(startTime / 1000)) {
+      //     this.clearing();
+      const dateNow = Date.now();
+      if (dateNow >= startTime) {
         this.clearing();
       } else {
         const currentTime = Date.now();
@@ -106,6 +82,40 @@ class Timer {
 const timer = new Timer({
   onTick: updateClockFace,
 });
+
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  //   altInput: true,
+  //   altFormat: 'F j, Y',
+  dateFormat: 'Y-m-d H:i',
+  onClose(selectedDates) {
+    if (selectedDates[0].getTime() < Date.now()) {
+      // Notiflix.Notify.failure('Please choose a date in the future');
+      Notiflix.Report.warning('Wrong Date', 'Please choose a date in the future', 'OK');
+      return;
+    }
+    timer.setEndDate(selectedDates[0]);
+    Refs.startBtn.disabled = false;
+    // console.log(selectedDates[0].getTime());
+  },
+};
+
+flatpickr('#datetime-picker', options);
+
+const Refs = {
+  inputDate: document.querySelector('#datetime-picker'),
+  startBtn: document.querySelector('[data-start]'),
+  stopBtn: document.querySelector('[data-stop]'),
+  secondsVal: document.querySelector('[data-seconds]'),
+  minutesVal: document.querySelector('[data-minutes]'),
+  hoursVal: document.querySelector('[data-hours]'),
+  daysVal: document.querySelector('[data-days]'),
+};
+
+Refs.startBtn.disabled = true;
 
 Refs.startBtn.addEventListener('click', timer.start.bind(timer));
 Refs.stopBtn.addEventListener('click', timer.stop.bind(timer));
