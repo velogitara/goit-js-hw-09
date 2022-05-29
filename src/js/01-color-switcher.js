@@ -12,6 +12,7 @@ let timerId = null;
 let timerStartBtnId = null;
 
 const ColorSwitchOnClick = () => {
+  bodyStyleRef.backgroundColor = getRandomHexColor();
   timerId = setInterval(() => {
     const bodyStyle = (bodyStyleRef.backgroundColor = getRandomHexColor());
   }, 1000);
