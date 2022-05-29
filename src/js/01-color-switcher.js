@@ -9,11 +9,15 @@ const refs = {
 };
 
 let timerId = null;
+let timerStartBtnId = null;
 
 const ColorSwitchOnClick = () => {
   timerId = setInterval(() => {
     const bodyStyle = (bodyStyleRef.backgroundColor = getRandomHexColor());
   }, 1000);
+  // timerStartBtnId = setInterval(() => {
+  //   refs.startBtn.style.backgroundColor = getRandomHexColor();
+  // }, 1000);
   refs.startBtn.disabled = true;
   refs.stopBtn.disabled = false;
 };
