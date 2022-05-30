@@ -2,7 +2,6 @@ function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 const bodyStyleRef = document.body.style;
-refs.startBtn.disabled = true;
 
 const refs = {
   startBtn: document.querySelector('[data-start]'),
@@ -12,6 +11,7 @@ const refs = {
 let timerId = null;
 let timerStartBtnId = null;
 
+refs.stopBtn.disabled = true;
 const ColorSwitchOnClick = () => {
   bodyStyleRef.backgroundColor = getRandomHexColor();
   timerId = setInterval(() => {
