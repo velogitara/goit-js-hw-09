@@ -32,8 +32,8 @@ class Timer {
     const startTime = this.endDate.getTime();
     this.isActive = true;
     this.intervalId = setInterval(() => {
-      //   if (Math.trunc(Date.now() / 1000) === Math.trunc(startTime / 1000)) {
-      //     this.clearing();
+      // if (Math.trunc(Date.now() / 1000) === Math.trunc(startTime / 1000)) {
+      //   this.clearing();
       const dateNow = Date.now();
       if (dateNow >= startTime) {
         this.clearing();
