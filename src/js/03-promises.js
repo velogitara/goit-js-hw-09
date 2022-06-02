@@ -47,9 +47,11 @@ function onSubmit(event) {
 
         promiseCounter += 1;
       }, step);
-      Refs.submitBtn.disabled = false;
     }, delay);
   }
+  setTimeout(() => {
+    Refs.submitBtn.disabled = false;
+  }, delay);
 }
 
 function createPromise(position, delay) {
