@@ -14,9 +14,12 @@ function onSubmit(event) {
 
   // let promiseCounter = 1;
   let delay = Number(Refs.delayRef.value);
-  let amount = Refs.amountRef.value;
+  let amount = Number(Refs.amountRef.value);
   let step = Number(Refs.stepRef.value);
-  console.log(step);
+
+  if (delay < 0 || amount <= 0 || step < 0) {
+    Notiflix.Report.warning('Sorry', 'Выберите положительные значения', 'OK');
+  }
 
   for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay)
